@@ -1,0 +1,4 @@
+num_cpus: 8                 # number of cpus to use per job
+num_gpus: 1                 # number of gpus to use per job
+time: "06:00:00"            # max time to allocate per job in the format "hh:mm:ss
+mem: 16000                  # memory to allocate per job in MB

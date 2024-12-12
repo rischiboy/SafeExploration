@@ -1,0 +1,13 @@
+params:
+  seed: 37148                   # seed for the generating the random seeds for each run
+  launch_mode: "local"        # launch mode for the job
+  user_name: "ghodkih"
+  prompt: True                # prompt before launching the job
+  num_hparam_samples: 1       # number of hyperparameter samples to generate from the search space
+  num_seeds_per_hparam: 10     # number of seeds to generate per hyperparameter sample
+sbatch:
+  num_cpus: 2                 # number of cpus to use per job
+  num_gpus: 1                 # number of gpus to use per job
+  time: "02:00:00"            # max time to allocate per job in the format "hh:mm:ss
+  long_run: False             # whether to run the job for a long time (1 day)
+  mem: 6000                  # memory to allocate per job in MB

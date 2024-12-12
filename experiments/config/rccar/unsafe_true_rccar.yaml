@@ -1,0 +1,38 @@
+wandb:
+  project_name: "Week-25-Car"                                # Name of the project on wandb
+  group_name: "TightBound2"                                   # Name of the run on wandb
+  job_name: "Unsafe-H20"                                        # Name of the job
+  logs_dir: "./experiments/results/rccar"                      # Directory to save the logs
+  logging_wandb: True                                             # Whether to log the training to wandb
+env:
+  init_pose: [1.42, -1.02, 3.14]      # Initial pose of the car (x, y, theta)
+  goal: [0.0, 0.0, 0.0]             # Desired pose of the car (x, y, theta)
+  dt: 1./15                         # Time step
+  action_cost: 0.005                # Default: 0.005
+  encode_angle: True               # Whether to encode the angle in the state into sin and cos parts
+  max_steps: 200
+cem:
+  horizon: 20                       # Planning horizon
+  num_iter: 10                      # Number of consecutive CEM update iterations        
+  num_elites: 50
+  num_samples: 500
+  # exponent: 2.0                     # Specificially for the ICEM Agent
+model:
+  dynamics: "TRUE"                  # ["TRUE", "BNN"]
+  optimizer: "CEM"                  # ["CEM", "ICEM" "MinMax"]
+  agent: "CEM"                      # ["CEM", "SafeCEM", "PesTraj" "MinMax", "OptMinMax"]
+train:
+  # seed: 11932
+  sample_batch_size: 256            # Batch size for sampling from the replay buffer
+  buffer_size: 30000               # Size of the replay buffer
+  num_model_updates: 10            # Number of training iterations
+  num_rollout_steps: 200            # Number of steps to rollout the agent
+  num_exploration_steps: 200       # Number of steps to collect data for the replay buffer
+  val_buffer_size: 0                # Size of the validation buffer
+  val_batch_size: 0                 # Batch size for evaluating the model
+  eval_episodes: 0                  # Number of episodes to evaluate the agent
+  eval_model_freq: 0               # Number of training iterations between evaluation
+  plot_freq: 5                     # Number of training iterations between plotting
+  diff_states: True                # Whether to use the difference between states as input  
+  verbose: True                     # Whether to print the training progress  
+  render: False                      # Whether to store recordings of the evaluation episodes

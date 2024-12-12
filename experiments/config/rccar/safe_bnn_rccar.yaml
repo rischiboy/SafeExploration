@@ -1,0 +1,62 @@
+wandb:
+  project_name: "Final-RCCar"                                # Name of the project on wandb
+  group_name: "Safe-CEM"                                   # Name of the run on wandb
+  job_name: "L1-MEAN-Safe"                                             # Name of the job
+  logs_dir: "./experiments/results/rccar"                      # Directory to save the logs
+  logging_wandb: True                                             # Whether to log the training to wandb
+env:
+  init_pose: [1.42, -1.02, 3.14]      # Initial pose of the car (x, y, theta)
+  goal: [0.0, 0.0, 0.0]             # Desired pose of the car (x, y, theta)
+  dt: 1./15                         # Time step
+  action_cost: 0.005                # Default: 0.005
+  encode_angle: True               # Whether to encode the angle in the state into sin and cos parts
+  max_steps: 200
+constraint:
+  x_bounds: [-0.25, 1.62]
+  y_bounds: [-1.22, 0.25]
+  lmbda: 1.0
+  d: 0.0
+  barrierfn: "relu"                # ["relu", "huber", "quadratic", "exponential"]
+cem:
+  horizon: 20                       # Planning horizon
+  num_iter: 10                      # Number of consecutive CEM update iterations        
+  num_elites: 50                    # Number of elite samples considered to update the distribution
+  num_samples: 500                  # Total number of samples
+  # exponent: 2.0                     # Specificially for the ICEM Agent
+model:
+  dynamics: "BNN"                   # ["TRUE", "BNN", "GP"]
+  optimizer: "CEM"                 # ["CEM", "ICEM" "MinMax"]
+  agent: "SafeCEM"                      # ["CEM", "SafeCEM", "PesTraj" "MinMax", "OptMinMax"]
+  bnn_type: "DeterministicFSVGDEnsemble" # ["DeterministicEnsemble", "ProbabilisticEnsemble", "DeterministicFSVGDEnsemble", "ProbabilisticFSVGDEnsemble"]
+  sampling_mode: "MEAN"             # ["MEAN", "NOISY_MEAN", "DIST", "TS"]
+  output_stds: 0.0001               # Standard deviation of the output of the model -- ProbabilisticEnsemble
+  num_training_steps: 10            # Number of training epochs to fit the BNN model -- BNNStatisticalModel
+  beta: 1.0                         # Constant scheduler -- BNNStatisticalModel
+  features: [256, 256]              # Number of hidden units in the MLP
+  lr_rate: 0.001                   # Learning rate for the Adam optimizer
+  weight_decay: 0.0001               # Weight decay for Adam optimizer
+  num_calibration_ps: 20            # Number of calibration bins
+  num_test_alphas: 100              # Number of calibration candidates
+  num_ensembles: 5                  # Number of ensembles for the ensemble model
+  num_particles: 10                 # Number of particles to sample from the distribution   
+  train_share: 0.8                  # Share of the data used for training
+  batch_size: 64                    # Batch size for training the BNN model
+  eval_frequency: 5                 # Number of training epochs between evaluation of the model
+  eval_batch_size: 2048             # Batch size for evaluating the model
+  return_best_model: False          # Whether to return the best model parameters based on the validation loss
+train:
+  # seed: 11932
+  sample_batch_size: 256            # Batch size for sampling from the replay buffer
+  buffer_size: 30000                # Size of the replay buffer
+  num_model_updates: 50            # Number of training iterations
+  num_rollout_steps: 200            # Number of steps to rollout the agent
+  num_exploration_steps: 200        # Number of steps to collect data for the replay buffer
+  val_buffer_size: 500              # Size of the validation buffer
+  val_batch_size: 500               # Batch size for evaluating the model
+  eval_episodes: 0                  # Number of episodes to evaluate the agent
+  eval_model_freq: 0                # Number of training iterations between evaluation
+  plot_freq: 5                     # Number of training iterations between plotting
+  diff_states: True                 # Whether to use the difference between states as input  
+  verbose: True                     # Whether to print the training progress  
+  render: False                      # Whether to store recordings of the evaluation episodes
+  calibrate: True                  # Whether to calibrate the model

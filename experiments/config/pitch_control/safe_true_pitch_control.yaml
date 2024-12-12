@@ -1,0 +1,38 @@
+wandb:
+  project_name: "Week-19-PC"                                           # Name of the project on wandb
+  group_name: "Safe_CEM_True"                                                   # Name of the run on wandb
+  job_name: "Horizon50"
+  logs_dir: "./experiments/results/pitch_control"                         # Directory to save the logs
+  logging_wandb: True                                                     # Whether to log the training to wandb
+env:
+  init_angle: -0.2
+  desired_angle: 0.0
+  angle_tolerance: 0.025
+  stability_duration: 20
+  max_steps: 300
+constraint:
+  max_angle: 0.0
+  lmbda: 100.0
+  d: 0.0
+cem:
+  horizon: 50                       # Planning horizon
+  num_iter: 10                      # Number of consecutive CEM update iterations        
+  num_elites: 100
+  num_samples: 1000
+model:
+  dynamics_type: "TRUE"              # ["TRUE", "BNN"]
+  agent_type: "CEM"                 # ["CEM", "MinMax"]
+train:
+  # seed: 0
+  sample_batch_size: 256            # Batch size for sampling from the replay buffer
+  buffer_size: 30000                # Size of the replay buffer
+  num_model_updates: 100             # Number of training iterations
+  num_rollout_steps: 300            # Number of steps to rollout the agent
+  num_exploration_steps: 400       # Number of steps to collect data for the replay buffer
+  val_buffer_size: 500              # Size of the validation buffer
+  val_batch_size: 500               # Batch size for evaluating the model
+  eval_episodes: 3                  # Number of episodes to evaluate the agent
+  eval_model_freq: 10                # Number of training iterations between evaluation
+  diff_states: False                # Whether to use the difference between states as input  
+  verbose: True                     # Whether to print the training progress  
+  render: False                     # Whether to store recordings of the evaluation episodes

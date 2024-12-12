@@ -1,0 +1,34 @@
+wandb:
+  project_name: "Week-19-PC"                                   # Name of the project on wandb
+  group_name: "Unsafe_True"                                     # Name of the run on wandb
+  job_name: "Horizon10"
+  logs_dir: "./experiments/results/pitch_control"                 # Directory to save the logs
+  logging_wandb: True                                            # Whether to log the training to wandbsss
+env:
+  init_angle: -0.2
+  desired_angle: 0.0
+  angle_tolerance: 0.025
+  stability_duration: 20
+  max_steps: 300
+cem:
+  horizon: 10                       # Planning horizon
+  num_iter: 10                      # Number of consecutive CEM update iterations        
+  num_elites: 50
+  num_samples: 500
+model:
+  dynamics_type: "TRUE"             # ["TRUE", "BNN"]
+  agent_type: "CEM"                 # ["CEM", "SAC"]
+train:
+  # seed: 0
+  sample_batch_size: 256            # Batch size for sampling from the replay buffer
+  buffer_size: 50000               # Size of the replay buffer
+  num_model_updates: 10            # Number of training iterations
+  num_rollout_steps: 300            # Number of steps to rollout the agent
+  num_exploration_steps: 400       # Number of steps to collect data for the replay buffer
+  val_buffer_size: 0                # Size of the validation buffer
+  val_batch_size: 0                 # Batch size for evaluating the model
+  eval_episodes: 3                  # Number of episodes to evaluate the agent
+  eval_model_freq: 5               # Number of training iterations between evaluation
+  diff_states: False                # Whether to use the difference between states as input  
+  verbose: True                     # Whether to print the training progress  
+  render: False                     # Whether to store recordings of the evaluation episodes

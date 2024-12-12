@@ -1,0 +1,5 @@
+defaults:
+  - sweep: pendulum_sweep
+  - sweeper_cell: pendulum_cell
+seed: 11932
+num_agents: 2

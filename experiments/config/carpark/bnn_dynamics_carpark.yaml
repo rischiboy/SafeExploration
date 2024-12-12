@@ -1,0 +1,49 @@
+wandb:
+  project_name: "Week-21-Car"                                # Name of the project on wandb
+  group_name: "Unsafe-CEM-SpeedCost"                               # Name of the run on wandb
+  job_name: "DIST_Exp_10k"                                       # Name of the job
+  logs_dir: "./experiments/results/pendulum"             # Directory to save the logs
+  logging_wandb: True                                    # Whether to log the training to wandb
+env:
+  margins: [-0.05, 0.05]
+  stability_duration: 10
+  max_steps: 200
+  max_action: 6.0
+  max_speed: 10.0
+cem:
+  horizon: 10                       # Planning horizon
+  num_iter: 10                      # Number of consecutive CEM update iterations        
+  num_elites: 50
+  num_samples: 500
+model:
+  dynamics_type: "BNN"              # ["TRUE", "BNN"]
+  agent_type: "CEM"                 # ["CEM", "SAC"]
+  bnn_type: "DeterministicEnsemble" # ["DeterministicEnsemble", "ProbabilisticEnsemble", "DeterministicFSVGDEnsemble", "ProbabilisticFSVGDEnsemble"]
+  sampling_mode: "DIST"             # ["MEAN", "NOISY_MEAN", "DIST", "TS"]
+  output_stds: [0.0001, 0.0001]     # Standard deviation of the output of the model -- ProbabilisticEnsemble
+  num_training_steps: 10            # Number of training epochs to fit the BNN model -- BNNStatisticalModel
+  beta: [1.0, 1.0]                  # Constant scheduler -- BNNStatisticalModel
+  features: [256, 256]              # Number of hidden units in the MLP
+  lr_rate: 0.0001                   # Learning rate for the Adam optimizer
+  weight_decay: 0.001               # Weight decay for Adam optimizer
+  num_ensembles: 5                  # Number of ensembles for the ensemble model
+  num_particles: 10                 # Number of particles to sample from the distribution   
+  train_share: 0.8                  # Share of the data used for training
+  batch_size: 64                    # Batch size for training the BNN model
+  eval_frequency: 5                 # Number of training epochs between evaluation of the model
+  eval_batch_size: 2048             # Batch size for evaluating the model
+  return_best_model: False          # Whether to return the best model parameters based on the validation loss
+train:
+  # seed: 11932
+  sample_batch_size: 256            # Batch size for sampling from the replay buffer
+  buffer_size: 50000                # Size of the replay buffer
+  num_model_updates: 100            # Number of training iterations
+  num_rollout_steps: 200            # Number of steps to rollout the agent
+  num_exploration_steps: 10000        # Number of steps to collect data for the replay buffer
+  val_buffer_size: 500                # Size of the validation buffer
+  val_batch_size: 500                 # Batch size for evaluating the model
+  eval_episodes: 3                  # Number of episodes to evaluate the agent
+  eval_model_freq: 10               # Number of training iterations between evaluation
+  diff_states: False                # Whether to use the difference between states as input  
+  verbose: True                     # Whether to print the training progress  
+  render: False                      # Whether to store recordings of the evaluation episodes

@@ -1,0 +1,23 @@
+name: DetEnsemble-CEM
+entity: safex
+project: PendulumSweep
+run_cap: 8
+program: "experiments/cem_pendulum_sweep.py"
+method: grid
+metric:
+  name: Reward
+  goal: maximize
+parameters:
+  pendulum.model.lr_rate:
+    values: [0.001, 0.0001]
+  pendulum.model.weight_decay:
+    values: [0.001, 0.0001]
+  # pendulum.model.num_particles:
+  #   values: [5, 10]
+  pendulum.model.batch_size:
+    values: [64, 256]
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args_no_hyphens}

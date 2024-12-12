@@ -1,0 +1,37 @@
+wandb:
+  project_name: "Pitch-Control-Planner"     # Name of the project on wandb
+  run_name: "BNN-Dynamics-H50-3"            # Name of the run on wandb
+  logging_wandb: False                       # Whether to log the training to wandb
+cem:
+  horizon: 50                       # Planning horizon
+  num_iter: 10                      # Number of consecutive CEM update iterations        
+  num_elites: 50
+  num_samples: 500
+model:
+  output_stds: [0.1, 0.1, 0.1]      # Standard deviation of the output of the model -- ProbabilisticEnsemble
+  num_training_steps: 10            # Number of training epochs to fit the BNN model -- BNNStatisticalModel
+  beta: [1.0, 1.0, 1.0]             # Constant scheduler -- BNNStatisticalModel
+  features: [256, 256]              # Number of hidden units in the MLP
+  lr_rate: 0.001                    # Learning rate for the Adam optimizer
+  weight_decay: 0.0001               # Weight decay for Adam optimizer
+  num_particles: 5                  # Number of particles to perform the FSVGD update    
+  train_share: 0.8                  # Share of the data used for training
+  batch_size: 256                   # Batch size for training the BNN model
+  eval_frequency: 5                 # Number of training epochs between evaluation of the model
+  eval_batch_size: 2048             # Batch size for evaluating the model
+  # logging_wandb: True               # Whether to log the training to wandb
+  return_best_model: False          # Whether to return the best model parameters based on the validation loss
+train:
+  seed: 0
+  sample_batch_size: 256            # Batch size for sampling from the replay buffer
+  buffer_size: 100000               # Size of the replay buffer
+  num_model_updates: 200            # Number of training iterations
+  num_rollout_steps: 400            # Number of steps to rollout the agent
+  num_exploration_steps: 1000       # Number of steps to collect data for the replay buffer
+  val_buffer_size: 500              # Size of the validation buffer
+  val_batch_size: 500               # Batch size for evaluating the model
+  eval_episodes: 1                  # Number of episodes to evaluate the agent
+  eval_frequency: 10                # Number of training iterations between evaluation
+  diff_states: False                # Whether to use the difference between states as input  
+  verbose: True                     # Whether to print the training progress  
+  render: False                      # Whether to store recordings of the evaluation episodes

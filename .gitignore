@@ -1,0 +1,26 @@
+# Ignore files and directories created by Visual Studio Code
+.vscode/
+
+# Ignore the Python virtual environment folder
+__pycache__/
+
+# Ignore macOS .DS_Store files
+.DS_Store
+
+# Directories
+failed_runs
+old_version
+playground
+ 
+# Hydra
+outputs                 
+
+# Built dependencies
+safex.egg-info
+build
+
+# Log files
+wandb
+experiments/results
+run/logs
+run/output

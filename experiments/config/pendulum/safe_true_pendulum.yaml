@@ -1,0 +1,38 @@
+wandb:
+  project_name: "Week-17"                                        # Name of the project on wandb
+  group_name: "MinMax-True"                    # Name of the run on wandb
+  logs_dir: "./experiments/results/pendulum"                      # Directory to save the logs
+  logging_wandb: True                                             # Whether to log the training to wandb
+env:
+  angle_tolerance: 0.1
+  stability_duration: 10
+  max_steps: 200
+  max_speed: 12.0
+constraint:
+  speed_threshold: 6.0
+  lmbda: 100.0
+  d: 0.0
+icem:
+  horizon: 20                       # Planning horizon
+  num_iter: 5                      # Number of consecutive CEM update iterations        
+  num_elites: 50
+  num_samples: 500
+  exponent: 2.0                     # Specificially for the ICEM Agent
+model:
+  dynamics: "TRUE"                  # ["TRUE", "BNN"]
+  optimizer: "ICEM"                 # ["CEM", "ICEM" "MinMax"]
+  agent: "CEM"                      # ["CEM", "SafeCEM", "PesTraj" "MinMax", "OptMinMax"]
+train:
+  # seed: 0
+  sample_batch_size: 256            # Batch size for sampling from the replay buffer
+  buffer_size: 100000               # Size of the replay buffer
+  num_model_updates: 50            # Number of training iterations
+  num_rollout_steps: 200            # Number of steps to rollout the agent
+  num_exploration_steps: 1000       # Number of steps to collect data for the replay buffer
+  val_buffer_size: 0                # Size of the validation buffer
+  val_batch_size: 0                 # Batch size for evaluating the model
+  eval_episodes: 0                  # Number of episodes to evaluate the agent
+  eval_model_freq: 0               # Number of training iterations between evaluation
+  diff_states: False                # Whether to use the difference between states as input  
+  verbose: False                     # Whether to print the training progress  
+  render: True                      # Whether to store recordings of the evaluation episodes
